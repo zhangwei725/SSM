@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--注册事务管理类-->
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--注解配置事务-->
+    <!-- transaction-manager="transactionManager"  默认名称 transactionManager
+    可省略不写 对应DataSourceTransactionManager的id-->
+    <tx:annotation-driven proxy-target-class="true"/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+    <!-- 拦截器方式配置事物 -->
+    <!--<tx:advice id="transactionAdvice" transaction-manager="transactionManager">-->
+        <!--<tx:attributes>-->
+            <!--<tx:method name="add*"  />-->
+            <!--<tx:method name="append*" />-->
+            <!--<tx:method name="insert*"  />-->
+            <!--<tx:method name="save*"  />-->
+            <!--<tx:method name="update*"  />-->
+            <!--<tx:method name="modify*"  />-->
+            <!--<tx:method name="edit*" />-->
+            <!--<tx:method name="delete*" />-->
+            <!--<tx:method name="remove*"  />-->
+            <!--<tx:method name="repair"  />-->
+            <!--<tx:method name="delAndRepair"  />-->
+            <!--<tx:method name="get*" propagation="SUPPORTS"  read-only="true"/>-->
+            <!--<tx:method name="find*" propagation="SUPPORTS" read-only="true"/>-->
+            <!--<tx:method name="load*" propagation="SUPPORTS" read-only="true"/>-->
+            <!--<tx:method name="search*" propagation="SUPPORTS" read-only="true" />-->
+
+            <!--<tx:method name="*" propagation="SUPPORTS" />-->
+        <!--</tx:attributes>-->
+    <!--</tx:advice>-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="transactionPointcut" expression="execution(public * com.werner.ssm.service.*Impl.*(..))" />-->
+        <!--<aop:advisor pointcut-ref="transactionPointcut" advice-ref="transactionAdvice" />-->
+    <!--</aop:config>-->
+
+</beans>
