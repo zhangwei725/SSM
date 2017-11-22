@@ -1,0 +1,51 @@
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for LOGGING_EVENT
+-- ----------------------------
+DROP TABLE IF EXISTS `LOGGING_EVENT`;
+CREATE TABLE `LOGGING_EVENT` (
+  `TIMESTMP` bigint(20) NOT NULL,
+  `FORMATTED_MESSAGE` text COLLATE utf8_bin NOT NULL,
+  `LOGGER_NAME` varchar(254) COLLATE utf8_bin NOT NULL,
+  `LEVEL_STRING` varchar(254) COLLATE utf8_bin NOT NULL,
+  `THREAD_NAME` varchar(254) COLLATE utf8_bin DEFAULT NULL,
+  `REFERENCE_FLAG` smallint(6) DEFAULT NULL,
+  `ARG0` varchar(254) COLLATE utf8_bin DEFAULT NULL,
+  `ARG1` varchar(254) COLLATE utf8_bin DEFAULT NULL,
+  `ARG2` varchar(254) COLLATE utf8_bin DEFAULT NULL,
+  `ARG3` varchar(254) COLLATE utf8_bin DEFAULT NULL,
+  `CALLER_FILENAME` varchar(254) COLLATE utf8_bin NOT NULL,
+  `CALLER_CLASS` varchar(254) COLLATE utf8_bin NOT NULL,
+  `CALLER_METHOD` varchar(254) COLLATE utf8_bin NOT NULL,
+  `CALLER_LINE` char(4) COLLATE utf8_bin NOT NULL,
+  `EVENT_ID` bigint(20) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`EVENT_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Table structure for LOGGING_EVENT_EXCEPTION
+-- ----------------------------
+DROP TABLE IF EXISTS `LOGGING_EVENT_EXCEPTION`;
+CREATE TABLE `LOGGING_EVENT_EXCEPTION` (
+  `EVENT_ID` bigint(20) NOT NULL,
+  `I` smallint(6) NOT NULL,
+  `TRACE_LINE` varchar(254) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`EVENT_ID`,`I`),
+  CONSTRAINT `logging_event_exception_ibfk_1` FOREIGN KEY (`EVENT_ID`) REFERENCES `LOGGING_EVENT` (`EVENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- ----------------------------
+-- Table structure for LOGGING_EVENT_PROPERTY
+-- ----------------------------
+DROP TABLE IF EXISTS `LOGGING_EVENT_PROPERTY`;
+CREATE TABLE `LOGGING_EVENT_PROPERTY` (
+  `EVENT_ID` bigint(20) NOT NULL,
+  `MAPPED_KEY` varchar(254) COLLATE utf8_bin NOT NULL,
+  `MAPPED_VALUE` text COLLATE utf8_bin,
+  PRIMARY KEY (`EVENT_ID`,`MAPPED_KEY`),
+  CONSTRAINT `logging_event_property_ibfk_1` FOREIGN KEY (`EVENT_ID`) REFERENCES `LOGGING_EVENT` (`EVENT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+SET FOREIGN_KEY_CHECKS = 1;
